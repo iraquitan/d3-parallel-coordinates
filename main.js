@@ -29,23 +29,27 @@ window.onload = function() {
         }
         
         function handleMouseOver(d) {
-            console.log("Hi");
-            d3.select(this).attr('stroke', 'orange');
+            d3.select(this)
+                .style('stroke', 'orange')
+                .style('stroke-width', '3');
+            
         }
 
         function handleMouseOut(d) {
-            d3.select(this).attr('stroke', 'black');
+            d3.select(this)
+                .style('stroke', 'black')
+                .style('stroke-width', '1');
         }
 
-        d3.select('#mysvg').selectAll('path.dataPath')
+        let paths = d3.select('#mysvg').selectAll('path.dataPath')
             .data(dataset)
             .enter()
             .append('path')
             .attr('class', 'dataPath')
             .attr('d', drawLine)
-            .attr('pointer-events', 'visibleStroke')
-            // .style('fill', 'none')
-            // .style('stroke', 'lightblue')
+            .attr('pointer-events', 'visibleStroke');
+
+        paths
             .on('mouseover', handleMouseOver)
             .on('mouseout', handleMouseOut);
         
