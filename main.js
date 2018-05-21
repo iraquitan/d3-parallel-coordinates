@@ -18,7 +18,7 @@ window.onload = function() {
             }
         }
 
-        let scaleX = d3.scalePoint().domain(attrs).range([20, 580]);
+        let scaleX = d3.scalePoint().domain(attrs).range([30, 580]);
 
         function drawLine(d) {
             let str = 'M ';
@@ -37,7 +37,7 @@ window.onload = function() {
 
         function handleMouseOut(d) {
             d3.select(this)
-                .style('stroke', 'black')
+                .style('stroke', 'lightsteelblue')
                 .style('stroke-width', '1');
         }
 
@@ -53,15 +53,44 @@ window.onload = function() {
             .on('mouseover', handleMouseOver)
             .on('mouseout', handleMouseOut);
         
-        d3.axisLeft(scales.sepal_width)
-        d3.select('#mysvg').selectAll('g.axisGroup')
-            .data(attrs).enter()
-            .append('g')
-            .attr('class', 'axisGroup')
-            .attr('transform', function(d){
-                return 'translate('+scaleX(d)+',20)';
-            })
-            .call();
+        // d3.axisLeft(scales.sepal_width)
+        // console.log(scales['sepal_width']);
+        // console.log(scaleX);
+        // d3.select('#mysvg').selectAll('g')
+        //     .data(attrs).enter()
+        //     .append('g')
+        //     // .call()
+        //     // .attr('class', 'axisGroup')
+        //     .attr('transform', function(d){
+        //         console.log(scales[d]);
+        //         return 'translate('+scaleX(d)+',20)';
+        //     })
+        //     .call(scales[d]);
+
+        d3.select('#mysvg').append('g')
+            .call(d3.axisBottom(scaleX))
+            .attr("transform", "translate(0,483)");
+
+        d3.select('#mysvg').append('g')
+            .call(d3.axisRight(scales.species))
+            .attr('transform', function(){
+                return 'translate(' + (scaleX('species') + 3) + ',0)';
+            });
+
+        // d3.select('#mysvg').append('g')
+        //     .data(attrs).enter()
+        //     .call(d3.axisLeft(scales[d]))
+        //     // .append("text")
+        //     // .attr("transform", "rotate(-90)")
+        //     .attr('transform', function(d){
+        //         console.log(d);
+        //         return 'translate('+scaleX(d)+',20)';
+        //     })
+        //     // .attr("y", 0 - /margin.left)
+        //     // .attr("x",0 - (height / 2))
+        //     .attr("dy", "1em")
+        //     .style("text-anchor", "middle")
+        //     .text("Value");
     }
 
     function render(data){
